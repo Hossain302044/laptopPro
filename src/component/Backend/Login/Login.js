@@ -1,15 +1,40 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
-import google from './../../../img/icon/google.png';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import auth from '../../../firebase.init';
+import SocailLogin from '../SocailLogin/SocailLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const emailRef = useRef('');
     const passwordRef = useRef('');
+    const [signInWithEmailAndPassword, user, loadingEmailPass, error] = useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+    const navigate = useNavigate();
+    let errorPassEmail;
 
-    const handleFormSubmit = event => {
+    if (error) {
+        errorPassEmail = <div>
+            <p className='text-red-700'>{error?.message}</p>
+        </div>
+    }
+
+    if (user) {
+        navigate('/home')
+    }
+    const handleFormSubmit = async event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
+        await signInWithEmailAndPassword(email, password);
+    }
+    const resetPassword = async () => {
+        const email = emailRef.current.value;
+        if (email) {
+            await sendPasswordResetEmail(email);
+            toast('send mail');
+        }
     }
     return (
         <div>
@@ -25,12 +50,13 @@ const Login = () => {
                             <label for='password' className='mb-1 text-sm'>Password</label>
                             <input ref={passwordRef} className='border rounded-md px-3 py-2' type="password" name='password' id='password' placeholder='Enter your Password' />
                         </div>
+                        {errorPassEmail}
                         <div>
                             <input className='w-full rounded-md bg-primary text-white py-2' type="button" value="Log In" />
                         </div>
                         <div className='flex justify-between text-sm'>
                             <p>Create Free<Link to='/signup' className='text-cyan-400'> Account?</Link></p>
-                            <Link to="/home" className='text-cyan-400'>Forgate Password?</Link>
+                            <button onClick={resetPassword} className='text-cyan-400'>Forgate Password?</button>
                         </div>
                         <div className='relative pb-6'>
                             <div className='absolute top-0 lef-0 w-full border'></div>
@@ -38,12 +64,11 @@ const Login = () => {
                                 <span className='bg-gray-50 px-3'>or continue via</span>
                             </div>
                         </div>
-                        <div>
-                            <button className='w-full border border-primary rounded-md  text-primary py-2 flex justify-center items-center hover:bg-primary hover:text-white'><img src={google} alt="" />google</button>
-                        </div>
+                        <SocailLogin></SocailLogin>
                     </form>
                 </div>
             </main>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

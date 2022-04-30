@@ -1,0 +1,17 @@
+.Banner-sections{
+    margin-top: 60px;
+    background-image: url(./../../../../img/icon/Stock-Management-banner.jpg);
+    background-color: rgba(0, 0, 0, 0.5);
+    min-height: 600px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+.Banner-sections::after{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-color: rgba(0, 0, 0, 0.5);
+}
