@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
+import Mylist from './Mylist';
 
 const ProductList = () => {
+    const [products, setProducts] = useState('');
+    const [user] = useAuthState(auth);
+    useEffect(() => {
+        const getMyProducts = async () => {
+            const email = user?.email;
+            const url = `https://thawing-badlands-95729.herokuapp.com/myproducts?email=${email}`;
+            try {
+                await fetch(url)
+                    .then(res => res.json())
+                    .then(data => setProducts(data))
+            } catch (error) {
+                console.log(error?.message)
+            }
+        }
+        getMyProducts();
+
+    }, [user])
     return (
         <div>
             <section className="text-gray-600 body-font">
@@ -12,50 +32,19 @@ const ProductList = () => {
                         <table className="table-auto w-full text-left whitespace-no-wrap">
                             <thead>
                                 <tr>
-                                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Name</th>
                                     <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Image</th>
-                                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Stock</th>
+                                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Name</th>
+                                    <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Quantity</th>
                                     <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Price</th>
-                                    <th className="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="px-4 py-3">Start</td>
-                                    <td className="px-4 py-3"> <img alt="team" className="flex-shrink-0 rounded-lg w-16 h-16 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200" /></td>
-                                    <td className="px-4 py-3">15 GB</td>
-                                    <td className="px-4 py-3 text-lg text-gray-900">Free</td>
-                                    <td className="w-10 text-center">
-                                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3">Pro</td>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3"><img alt="team" className="flex-shrink-0 rounded-lg w-16 h-16 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200" /></td>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3">25 GB</td>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-                                    <td className="border-t-2 border-gray-200 w-10 text-center">
-                                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3">Business</td>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3"><img alt="team" className="flex-shrink-0 rounded-lg w-16 h-16 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200" /></td>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3">40 GB</td>
-                                    <td className="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$50</td>
-                                    <td className="border-t-2 border-gray-200 w-10 text-center">
-                                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">Exclusive</td>
-                                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3"><img alt="team" className="flex-shrink-0 rounded-lg w-16 h-16 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200" /></td>
-                                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3">120 GB</td>
-                                    <td className="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-                                    <td className="border-t-2 border-b-2 border-gray-200 w-10 text-center">
-                                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Delete</button>
-                                    </td>
-                                </tr>
+                                {
+                                    products.map(product => <Mylist
+                                        key={product._id}
+                                        product={product}
+                                    ></Mylist>)
+                                }
                             </tbody>
                         </table>
                     </div>

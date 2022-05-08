@@ -4,20 +4,19 @@ import AllProduct from './AllProduct';
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/allproducts')
+        fetch('https://thawing-badlands-95729.herokuapp.com/allproducts')
             .then(res => res.json())
             .then(data => setProducts(data))
     }, [])
     const DeleteToProduct = id => {
         const proceed = window.confirm('are you sure we want to delete?');
         if (proceed) {
-            const url = `http://localhost:5000/allproducts/${id}`;
+            const url = `https://thawing-badlands-95729.herokuapp.com/allproducts/${id}`;
             fetch(url, {
                 method: "DELETE",
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     const remaining = products.filter(product => product._id !== id);
                     setProducts(remaining);
                 })

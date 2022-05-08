@@ -7,7 +7,7 @@ const Addproduct = () => {
     const { register, handleSubmit } = useForm();
     const [user] = useAuthState(auth);
     const onSubmit = data => {
-        fetch('http://localhost:5000/products', {
+        fetch('https://thawing-badlands-95729.herokuapp.com/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
