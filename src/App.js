@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Addproduct from './component/Backend/Addproduct/Addproduct';
 import Login from './component/Backend/Login/Login';
+import ProductList from './component/Backend/ProductList/ProductList';
 import Signup from './component/Backend/Signup/Signup';
 import Aboutus from './component/Page/Aboutus/Aboutus';
 import Blog from './component/Page/Blog/Blog';
@@ -17,11 +19,13 @@ function App() {
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/home' element={<Home></Home>}></Route>
-        <Route path='/product' element={<Products></Products>}></Route>
+        <Route path='/products' element={<Products></Products>}></Route>
         <Route path='/about-us' element={<Aboutus></Aboutus>}></Route>
         <Route path='/contact-us' element={<Contact></Contact>}></Route>
         <Route path='/blog' element={<Blog></Blog>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
+        <Route path='/addproducts' element={<Addproduct></Addproduct>}></Route>
+        <Route path='/productlist' element={<ProductList></ProductList>}></Route>
         <Route path='/signup' element={<Signup></Signup>}></Route>
       </Routes>
       <Footer></Footer>
