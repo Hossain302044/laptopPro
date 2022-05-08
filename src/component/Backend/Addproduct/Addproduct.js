@@ -7,7 +7,6 @@ const Addproduct = () => {
     const { register, handleSubmit } = useForm();
     const [user] = useAuthState(auth);
     const onSubmit = data => {
-        console.log(data);
         fetch('http://localhost:5000/products', {
             method: 'POST',
             headers: {
@@ -17,6 +16,7 @@ const Addproduct = () => {
         })
             .then(res => res.json())
             .then(result => {
+                alert('product adding')
                 console.log(result);
             })
     };

@@ -9,7 +9,39 @@ const ProductDetails = () => {
         fetch(url)
             .then(res => res.json())
             .then(data => setProduct(data))
-    }, [])
+    }, []);
+    const handleToDelivered = id => {
+        const updateProducts = parseInt(product.quantity) - 1;
+        const url = `http://localhost:5000/products/${id}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateProducts)
+        })
+            .then(res => res.json())
+            .then(result => {
+                alert('product Update')
+                console.log(result);
+            })
+    }
+    const handleToAddQuantity = id => {
+        let newProductQty = prompt("Please Enter Product Quantity Number", "");
+        const updateProducts = parseInt(product.quantity) + parseInt(newProductQty);
+        const url = `http://localhost:5000/products/${id}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateProducts),
+        })
+            .then(res => res.json())
+            .then(result => {
+                alert('data update');
+                console.log(result);
+            })
+    }
+
     return (
         <div >
             <section className="text-gray-600 body-font overflow-hidden">
@@ -32,7 +64,8 @@ const ProductDetails = () => {
                             </div>
                             <div className="flex">
                                 <span className="title-font font-medium text-2xl text-gray-900">${product.price}</span>
-                                <button className="flex ml-auto text-white bg-cyan-500 border-0 py-2 px-6 focus:outline-none hover:bg-cyan-600 rounded">Delivered</button>
+                                <button onClick={() => handleToDelivered(id)} className="flex ml-auto text-white bg-cyan-500 border-0 py-2 px-6 focus:outline-none hover:bg-cyan-600 rounded">Delivered</button>
+                                <button onClick={() => handleToAddQuantity(id)} className="flex ml-auto text-white bg-cyan-500 border-0 py-2 px-6 focus:outline-none hover:bg-cyan-600 rounded">Add Quantity</button>
                             </div>
                         </div>
                         <img alt="" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src={product.image} />
