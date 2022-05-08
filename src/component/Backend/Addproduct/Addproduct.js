@@ -22,7 +22,7 @@ const Addproduct = () => {
     };
     return (
         <div>
-            <section className="text-gray-600 body-font relative mt-20 md:mt-0">
+            <section className="text-gray-600 body-font relative mt-20 pt-15 md:mt-0">
                 <div className="container px-5 py-24 mx-auto">
                     <div className="lg:w-1/2 md:w-2/3 mx-auto">
                         <form className="flex flex-wrap -m-2" onSubmit={handleSubmit(onSubmit)}>

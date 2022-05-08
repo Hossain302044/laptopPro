@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Product = (prop) => {
-    const { _id, supliarname, name, image, price, quantity } = prop.product;
+    const { _id, name, image, price, quantity } = prop.product;
     const navigate = useNavigate();
 
     const navigateToAddToCart = id => {
