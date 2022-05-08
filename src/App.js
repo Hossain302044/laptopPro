@@ -8,7 +8,8 @@ import Aboutus from './component/Page/Aboutus/Aboutus';
 import Blog from './component/Page/Blog/Blog';
 import Contact from './component/Page/Contact/Contact';
 import Home from './component/Page/Home/Home';
-import Products from './component/Page/Products/Products';
+import AllProducts from './component/Page/Products/AllProducts';
+import ProductDetails from './component/Page/Products/ProductDetails';
 import Footer from './shear/Footer/Footer';
 import Header from './shear/Header/Header';
 
@@ -19,7 +20,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/home' element={<Home></Home>}></Route>
-        <Route path='/products' element={<Products></Products>}></Route>
+        <Route path='/products' element={<AllProducts></AllProducts>}></Route>
+        <Route path='/products/:id' element={<ProductDetails></ProductDetails>}></Route>
         <Route path='/about-us' element={<Aboutus></Aboutus>}></Route>
         <Route path='/contact-us' element={<Contact></Contact>}></Route>
         <Route path='/blog' element={<Blog></Blog>}></Route>
